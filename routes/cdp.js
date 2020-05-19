@@ -23,7 +23,7 @@ const getPageData = async(browser, pageNum, callback) => {
           url: href.getAttribute('href'),
           name: href.getAttribute('title'),
           prices: Array.from(product.querySelectorAll('.custom_price'))
-              .map(p => [p.innerText.slice(0, 2), p.innerText.slice(2)].join('.'))
+              .map(p => [p.innerText.slice(0, -2), p.innerText.slice(-2)].join('.'))
         })
       });
       return tmp;
@@ -51,7 +51,7 @@ const getMaxPages = async (browser) => {
     const lastPageUrl = await page.$eval('.last-page', node => node.getAttribute('href'));
     maxPage = parseInt(last(lastPageUrl.split('&')).split('=')[1]);
     await page.close();
-
+    console.info(` FOUND ${maxPage} pages to scrap`);
     return maxPage
   } catch (error) {
     console.log(error);
